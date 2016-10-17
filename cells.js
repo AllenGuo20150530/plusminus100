@@ -9,11 +9,17 @@
 4. addEventRefresh(), Refresh按钮，点击后刷新页面，新题目
 5. addEventSubmit(), Submit按钮，点击后检查题目结果，
     标记错题，显示正确率和做题时间
-6.
-
-
+6. addEventBlur()， 使失去焦点时不可编辑
+7. addEventEnter(), 回车时失去焦点，并时下一题的输入框获得焦点
+8. check(), 函数check检查结果，错误则提示错误
+*/
+/*
+10.17更新
+-----将原先JavaScript替换为jQuery
+-----习题container添加CSS，使其居中
 
 */
+
 // 定义自己的log函数
 var log = function() {
     console.log.apply(console, arguments)
@@ -46,11 +52,11 @@ var templateCell = function(a, b, sign) {
     var cell = `
         <div class='cell'>
             <span class='question' id='id-span-first'>${a}</span>
-            <span class='question' id='id-span-sigh'>${sign}</span>
+            <span class='question' id='id-span-sign'>${sign}</span>
             <span class='question' id='id-span-second'>${b}</span>
             <span class='question' id='id-span-equal'>=</span>
             <input class='question' type="text" id='id-input-result'>
-            <span class='right wrong'>错误</span>
+            <div id='id-div-right'></div>
         </div>
         `
     log('cell模板', cell)
@@ -81,15 +87,6 @@ var insertCells = function() {
     }
 }
 
-// 移除掉所有想移除的元素(已无用，可删除)
-var removeCells = function(index) {
-    log('removeCells开始！')
-    log('index-->', index)
-    var cell = $(classNa)
-    log('cells-->', cell)
-    cell.remove()
-    log('removeCells结束！')
-}
 // 给刷新按钮绑定事件
 var bindEventRefresh = function() {
     var refreshButton = $('#id-button-refresh')
@@ -111,40 +108,18 @@ var bindEventBlur = function() {
         log('table blur-->', event)
         var target = $(event.target)
         log('target-->', target)
+
+        // 使结果不可更改
         target.attr('readonly', 'readonly')
         log('target-->', target)
-    })
-}
-/*
-//回车后下一个输入框获得焦点 javaScript
-var bindEventEnter = function() {
-    var table = document.querySelector('.table')
-    log('table-->', table)
-    table.addEventListener('keydown', function(event){
-        log('container keydown', event, event.target)
-        var target = event.target
-        if(event.key === 'Enter') {
-            log('按了回车')
-            // 失去焦点
-            target.blur()
-            // 阻止默认行为的发生, 也就是不插入回车
-            event.preventDefault()
-            // 更新 todo
-            var currentCell = target.parentElement
-            log('current cell-->', currentCell)
-            var index = indexOfElement(currentCell)
-            log('update index',  index)
-            // 把元素在 todoList 中更新
-            log('table children-->', table.children)
-            var nextCell = table.children[index + 1]
-            log('next cell-->', nextCell)
-            log('nextCell children-->', nextCell.children)
-            var nextInput = nextCell.children[1]
-            log('next input-->', nextInput)
-            nextInput.focus()
+        // 对结果进行比较
+        var condition = check(target)
+        if(!condition) {
+            wrongTip(target)
         }
     })
-}*/
+}
+
 // 回车后下一个输入框获得焦点 jQury
 var bindEventEnter = function() {
     var table = $('.table')
@@ -177,6 +152,44 @@ var bindEventEnter = function() {
     })
 }
 
+// check() 检查结果是否正确，返回布尔类型
+var check = function(target) {
+    // 失去焦点时检查结果
+    log('check 开始')
+    log('target-->', target)
+    // 获得当前输入结果的父元素
+    var cell = target.parent()
+    log('cell-->', cell)
+    // 根据父元素，分别取出数值和符号，待用
+    var firstNum = Number(cell.find('#id-span-first').text())
+    var sign = cell.find('#id-span-sign').text()
+    var secondNum = Number(cell.find('#id-span-second').text())
+    var result = Number(target.val())
+    log(`${firstNum}--'${sign}'--${secondNum}`)
+    // 根据sign的值，分别进行加减运算
+    if(sign === '-') {
+        var answer = firstNum - secondNum
+        log('answer-->', answer)
+    } else if (sign === '+') {
+        var answer = firstNum + secondNum
+        log('answer-->', answer)
+    }
+    log('answer-->', answer)
+    // 将结果与输入的值比较，正确返回true，否则false
+    if (answer === result) {
+        log('比较结果-->', true)
+        return true
+    }else {
+        log('比较结果-->', false)
+        return false
+    }
+}
+// 对于错题，提示错误
+var wrongTip = function(target) {
+    var cell = target.parent()
+    var right = cell.find('#id-div-right')
+    right.addClass('wrong')
+}
 
 var __main = function(){
     $(document).ready(function(){
