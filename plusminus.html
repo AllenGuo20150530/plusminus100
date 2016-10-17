@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>加减法习题</title>
+    <script src='http://cdn.bootcss.com/jquery/3.1.1/jquery.js'></script>
+    <style>
+        .screen {
+            position: fixed;
+            width: 100%;
+            height: 100%
+        }
+        .vertical-center {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%)
+        }
+        .cell {
+            display: inline-block;
+            width: 100px;
+            height: 30px;
+        }
+        #id-input-result {
+            width: 20px;
+            height: 20px;
+            font-size: 15px;
+        }
+        .right {
+            display: none;
+        }
+        .question {
+            width: 20px;
+            height: 20px;
+
+        }
+        .plusminus-container {
+            display: block;
+            margin: 0 auto;
+        }
+        .table {
+            margin: 0 auto;
+            width: 550px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class='screen'>
+        <div class='plusminus-container'>
+            <div class='buttons-and-table'>
+                <div>
+                    <button id='id-button-refresh'>刷新习题</button>
+                    <button id='id-button-start'>开始做题</button>
+                    <span>时间显示</span>
+                </div>
+            </div>
+            <div class='table'>
+                <!--
+                <div class='cell'>
+                    <span id='id-span-first'>10</span>
+                    <span id='id-span-sigh'>-</span>
+                    <span id='id-span-second'>2</span>
+                    <span id='id-span-equal'>=</span>
+                    <input type="text" id='id-input-result'>
+                    <span class='right wrong'>错误</span>
+                </div>
+                -->
+            </div>
+            <button id='id-button-submit'>提交</button>
+        </div>
+    </div>
+
+    <script src='cells.js'></script>
+</body>
+</html>
