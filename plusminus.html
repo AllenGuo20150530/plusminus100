@@ -6,38 +6,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>加减法习题</title>
     <script src='http://cdn.bootcss.com/jquery/3.1.1/jquery.js'></script>
-    <link rel="stylesheet" href="plusminus.css">
+
+    <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class='screen'>
-        <div class='plusminus-container'>
-            <div class='buttons-and-table'>
-                <div>
-                    <button id='id-button-refresh'>刷新习题</button>
-                    <!--
-                    <button id='id-button-start'>开始做题</button>
-                    <span>时间显示</span>
-                    -->
-                </div>
+    <div class='plusminus-container'>
+        <div class='buttons-and-table'>
+            <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default" id='id-button-refresh'>刷新习题</button>
             </div>
-            <div class='table'>
-                <!--
-                <div class='cell'>
-                    <span id='id-span-first'>10</span>
-                    <span id='id-span-sigh'>-</span>
-                    <span id='id-span-second'>2</span>
-                    <span id='id-span-equal'>=</span>
-                    <input type="text" id='id-input-result'>
-                    <div id='id-div-right'></div>
-                </div>
-                -->
-            </div>
+            <button type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+            </button>
+        </div>
+        <div class='table'>
             <!--
-            <button id='id-button-submit'>提交</button>
+            <div class='cell'>
+                <span id='id-span-first'>10</span>
+                <span id='id-span-sigh'>-</span>
+                <span id='id-span-second'>2</span>
+                <span id='id-span-equal'>=</span>
+                <input type="text" id='id-input-result'>
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <div id='id-div-right'></div>
+            </div>
             -->
         </div>
+        <!--
+        <button id='id-button-submit'>提交</button>
+        -->
     </div>
-
     <script src='cells.js'></script>
 </body>
 </html>

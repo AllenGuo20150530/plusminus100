@@ -1,6 +1,7 @@
 // 100 以内的加减法
 /*
 思路：
+test
 1. getRandomArbitraryIntN()，返回 N 个0-100之间的随机整数
 2. quiz(array), 返回一张随机加减的题目表格，
     题目的数字由array中给出，加减有random判断，+1，-0
@@ -18,6 +19,10 @@
 -----将原先JavaScript替换为jQuery
 -----习题container添加CSS，使其居中
 
+10.19更新
+-----将代码顺序重新布置，更加易读
+-----html中加入bootstrap链接, 删掉原先自己的CSS样式。（目前使用不熟练，效果不好）
+-----刷新按钮使用bootstrap样式，其余还未改造完。
 */
 
 // 定义自己的log函数
@@ -34,7 +39,27 @@ var getRandomArbitraryIntN = function(min, max, n = 100) {
     }
     return numbers
 }
-
+var zeroOne = function() {
+    // 返回一个随机的 0 或 1
+    return Math.round(Math.random())
+}
+// 单个习题的cell模板
+var templateCell = function(a, b, sign) {
+    log('templateCell函数开始！')
+    var cell = `
+        <div class='cell'>
+            <span class='question' id='id-span-first'>${a}</span>
+            <span class='question' id='id-span-sign'>${sign}</span>
+            <span class='question' id='id-span-second'>${b}</span>
+            <span class='question' id='id-span-equal'>=</span>
+            <input class='question' type="text" id='id-input-result'>
+            <span id='id-span-right' aria-hidden="true"></span>
+        </div>
+        `
+    log('cell模板', cell)
+    return cell
+}
+//insertCell(10, 2, '-')，插入单个习题cell
 var insertCell = function(a, b, sign) {
     // 添加到 container 中
     log('insertCell函数开始！')
@@ -46,29 +71,7 @@ var insertCell = function(a, b, sign) {
     table.append(cell)
     log('将cell插入table')
 }
-
-var templateCell = function(a, b, sign) {
-    log('templateCell函数开始！')
-    var cell = `
-        <div class='cell'>
-            <span class='question' id='id-span-first'>${a}</span>
-            <span class='question' id='id-span-sign'>${sign}</span>
-            <span class='question' id='id-span-second'>${b}</span>
-            <span class='question' id='id-span-equal'>=</span>
-            <input class='question' type="text" id='id-input-result'>
-            <div id='id-div-right'></div>
-        </div>
-        `
-    log('cell模板', cell)
-    return cell
-}
-//insertCell(10, 2, '-')
-
-var zeroOne = function() {
-    // 返回一个随机的 0 或 1
-    return Math.round(Math.random())
-}
-
+// 循环插入50道习题
 var insertCells = function() {
     // 往table中添加50个加减法的cell
     log('insertCells 开始！')
@@ -119,7 +122,6 @@ var bindEventBlur = function() {
         }
     })
 }
-
 // 回车后下一个输入框获得焦点 jQury
 var bindEventEnter = function() {
     var table = $('.table')
@@ -151,7 +153,12 @@ var bindEventEnter = function() {
         }
     })
 }
-
+// 调用以上三个绑定事件函数
+var bindEvents = function() {
+    bindEventRefresh()
+    bindEventBlur()
+    bindEventEnter()
+}
 // check() 检查结果是否正确，返回布尔类型
 var check = function(target) {
     // 失去焦点时检查结果
@@ -187,16 +194,14 @@ var check = function(target) {
 // 对于错题，提示错误
 var wrongTip = function(target) {
     var cell = target.parent()
-    var right = cell.find('#id-div-right')
-    right.addClass('wrong')
+    var right = cell.find('#id-span-right')
+    right.addClass('glyphicon glyphicon-remove')
 }
 
 var __main = function(){
     $(document).ready(function(){
         insertCells()
-        bindEventRefresh()
-        bindEventBlur()
-        bindEventEnter()
+        bindEvents()
     })
 }
 
